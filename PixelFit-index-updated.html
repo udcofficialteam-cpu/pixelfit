@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Resize, crop, compress, convert images, and remove photo backgrounds online for free. Make social media graphics, form photos and desktop wallpapers with PixelFit.">
+  <title>PixelFit — Free Image Resizer, Converter &amp; Background Remover</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="PixelFit home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>PixelFit</strong><small>FREE IMAGE TOOLKIT</small></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="#tools">Tools</a>
+        <a href="#how-it-works">How it works</a>
+        <button class="nav-contact" id="contactButton" type="button" aria-haspopup="dialog" aria-controls="contactDialog">Contact</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> FREE · SIMPLE · PRIVATE</div>
+      <h1>Every image.<br><span>The right size.</span></h1>
+      <p class="hero-copy">Resize for social media, remove photo backgrounds, make a desktop wallpaper, compress files or convert formats — all in one place.</p>
+      <div class="trust-row">
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> Images stay on your device</span>
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg> No account or API key</span>
+      </div>
+    </section>
+
+    <section class="workspace" aria-label="Image editing tool">
+      <div class="panel upload-panel">
+        <div class="panel-heading">
+          <span class="step-number">01</span>
+          <div><h2>Add your image</h2><p>Choose a file from your device</p></div>
+        </div>
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden>
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose an image or drag and drop one here">
+          <div class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></div>
+          <strong>Drop your image here</strong>
+          <span>or <button id="browseButton" class="inline-button" type="button">browse files</button></span>
+          <small>JPG, PNG, WebP, GIF or BMP · up to 30 MB</small>
+        </div>
+        <div id="sourceCard" class="source-card" hidden>
+          <div class="source-preview-wrap"><img id="sourcePreview" alt="Uploaded image preview"></div>
+          <div class="source-details">
+            <strong id="sourceName" class="file-name">image.jpg</strong>
+            <span id="sourceMeta">Original dimensions</span>
+            <span id="sourceBytes" class="muted-small">File size</span>
+            <button type="button" id="replaceButton" class="text-button">Choose another image</button>
+          </div>
+        </div>
+        <div class="privacy-note"><span class="lock-symbol" aria-hidden="true">●</span><span><strong>Private by design.</strong> Your image is processed locally in this browser. It is not uploaded to PixelFit.</span></div>
+        <p class="error-message" id="uploadError" role="alert" hidden></p>
+      </div>
+
+      <div class="panel settings-panel">
+        <div class="panel-heading">
+          <span class="step-number">02</span>
+          <div><h2>Make it fit</h2><p>Pick a preset or enter your own size</p></div>
+        </div>
+
+        <label class="field-label" for="presetSelect">Quick size presets</label>
+        <select id="presetSelect" class="control select-control">
+          <option value="original">Keep original dimensions</option>
+          <optgroup label="Instagram">
+            <option value="instagram-square">Post — Square (1080 × 1080)</option>
+            <option value="instagram-portrait">Post — Portrait (1080 × 1350)</option>
+            <option value="instagram-story">Story / Reel (1080 × 1920)</option>
+          </optgroup>
+          <optgroup label="YouTube">
+            <option value="youtube-thumbnail">Thumbnail (1280 × 720)</option>
+            <option value="youtube-banner">Channel banner (2560 × 1440)</option>
+            <option value="youtube-profile">Profile picture (800 × 800)</option>
+          </optgroup>
+          <optgroup label="Other social media">
+            <option value="facebook-post">Facebook post (1200 × 630)</option>
+            <option value="facebook-cover">Facebook cover (1640 × 624)</option>
+            <option value="tiktok-video">TikTok video / cover (1080 × 1920)</option>
+            <option value="whatsapp-status">WhatsApp status (1080 × 1920)</option>
+            <option value="linkedin-post">LinkedIn post (1200 × 627)</option>
+            <option value="pinterest-pin">Pinterest pin (1000 × 1500)</option>
+            <option value="x-post">X post (1600 × 900)</option>
+          </optgroup>
+          <optgroup label="Desktop wallpapers">
+            <option value="wallpaper-hd">HD (1280 × 720)</option>
+            <option value="wallpaper-laptop">Laptop (1366 × 768)</option>
+            <option value="wallpaper-fhd">Full HD (1920 × 1080)</option>
+            <option value="wallpaper-qhd">QHD (2560 × 1440)</option>
+            <option value="wallpaper-4k">4K UHD (3840 × 2160)</option>
+            <option value="wallpaper-ultrawide">Ultrawide (3440 × 1440)</option>
+            <option value="wallpaper-phone">Phone wallpaper (1080 × 2400)</option>
+          </optgroup>
+          <optgroup label="Forms & documents">
+            <option value="square-photo">Square photo (600 × 600)</option>
+          </optgroup>
+          <option value="custom">Custom dimensions</option>
+        </select>
+
+        <div class="dimensions-heading"><span class="field-label">Output dimensions</span><span id="ratioLabel" class="ratio-label">Original ratio</span></div>
+        <div class="dimension-row">
+          <label class="dimension-field"><span>Width <small>px</small></span><input id="widthInput" class="control" type="number" min="1" max="12000" step="1" value="1920" inputmode="numeric"></label>
+          <button type="button" id="lockRatioButton" class="ratio-lock is-locked" aria-pressed="true" aria-label="Unlock aspect ratio" title="Lock aspect ratio"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></button>
+          <label class="dimension-field"><span>Height <small>px</small></span><input id="heightInput" class="control" type="number" min="1" max="12000" step="1" value="1080" inputmode="numeric"></label>
+        </div>
+        <div class="field-hint">Maximum output: 40 megapixels. Keep the ratio locked to avoid stretching.</div>
+
+        <div class="field-grid two-col">
+          <label><span class="field-label">Fit mode</span><select id="fitMode" class="control"><option value="cover">Fill & crop</option><option value="contain">Fit entire image</option><option value="stretch">Stretch to size</option></select></label>
+          <label><span class="field-label">Output format</span><select id="formatSelect" class="control"><option value="image/jpeg">JPG / JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
+        </div>
+        <div class="field-hint mode-hint" id="fitHint">Fill the frame edge-to-edge; parts of the image may be cropped.</div>
+
+        <div class="quality-block" id="qualityBlock">
+          <div class="range-label-row"><label for="qualityRange" class="field-label">Image quality</label><strong id="qualityValue">88%</strong></div>
+          <input id="qualityRange" type="range" min="10" max="100" value="88" step="1">
+          <div class="range-ends"><span>Smaller file</span><span>Higher quality</span></div>
+        </div>
+
+        <div class="target-size-block">
+          <label class="checkbox-line"><input id="targetEnabled" type="checkbox"><span><strong>Try to fit a file-size limit</strong><small>Useful for forms with a KB limit</small></span></label>
+          <div id="targetOptions" class="target-options" hidden>
+            <label class="target-input-wrap" for="targetKB"><span>Target size</span><span class="target-input-group"><input id="targetKB" class="control" type="number" min="5" max="20000" value="300" step="5"><span>KB</span></span></label>
+            <label class="checkbox-line compact"><input id="allowDownscale" type="checkbox"><span><strong>Reduce dimensions if needed</strong><small>May make the output smaller than the selected dimensions</small></span></label>
+          </div>
+        </div>
+        <label class="background-row" id="backgroundRow"><span><span class="field-label">Background for margins / JPG transparency</span><small>Used when the image has empty space or transparency.</small></span><input id="backgroundColor" type="color" value="#ffffff" aria-label="Choose background color"></label>
+
+        <button type="button" class="primary-button" id="processButton" disabled><span>Resize & export image</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+        <p id="processStatus" class="process-status" role="status" aria-live="polite">Add an image to get started.</p>
+      </div>
+    </section>
+
+    <section class="result-panel panel" id="resultPanel" hidden aria-labelledby="resultHeading">
+      <div class="result-heading-row">
+        <div class="panel-heading result-title"><span class="step-number success-step">03</span><div><h2 id="resultHeading">Your image is ready</h2><p id="resultSummary">Preview and download your processed image</p></div></div>
+        <button type="button" id="startOverButton" class="secondary-button">Start over</button>
+      </div>
+      <div class="result-layout">
+        <div class="output-preview-wrap"><img id="outputPreview" alt="Processed image preview"></div>
+        <div class="output-details">
+          <span class="ready-chip"><span></span> Ready to download</span>
+          <h3 id="outputName">image-pixelfit.jpg</h3>
+          <div class="stats-grid">
+            <div class="stat-box"><span>Dimensions</span><strong id="outputDimensions">1920 × 1080</strong></div>
+            <div class="stat-box"><span>File size</span><strong id="outputSize">—</strong></div>
+            <div class="stat-box"><span>Format</span><strong id="outputFormat">JPG</strong></div>
+            <div class="stat-box"><span>Change</span><strong id="outputChange">—</strong></div>
+          </div>
+          <p id="targetNotice" class="target-notice" hidden></p>
+          <a id="downloadButton" class="primary-button download-button" href="#" download="image-pixelfit.jpg"><span>Download image</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 19h16"/></svg></a>
+          <p class="download-note">Your download is saved directly to your device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading"><div><div class="eyebrow">ONE TOOLKIT, MANY USES</div><h2>What do you need today?</h2></div><p>Pick a common task to set up the right dimensions instantly.</p></div>
+      <div class="tool-cards">
+        <button class="tool-card" type="button" data-preset="instagram-square"><span class="tool-icon social-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="fill-dot" cx="17.5" cy="6.5" r="1"/></svg></span><strong>Social media</strong><span>Posts, stories, reels and covers</span><span class="tool-link">Choose a size <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="wallpaper-fhd"><span class="tool-icon wallpaper-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="14" rx="2"/><path d="M8 21h8m-4-3.5V21M5 14l4-4 3 3 3-5 4 6"/></svg></span><strong>Desktop wallpaper</strong><span>Full HD, 4K, laptop and ultrawide</span><span class="tool-link">Choose a size <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="custom" data-format="image/webp"><span class="tool-icon convert-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7h-7l2.5-2.5M4 17h7L8.5 19.5M20 7l-3-3M4 17l3 3M4 7a8 8 0 0 1 13-2.5M20 17a8 8 0 0 1-13 2.5"/></svg></span><strong>Convert formats</strong><span>JPG, PNG and WebP</span><span class="tool-link">Choose a format <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="original" data-target="100"><span class="tool-icon compress-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H4v4m12-4h4v4M4 17v4h4m12-4v4h-4M8 8l3 3m5-3-3 3m-2 2-3 3m5-3 3 3"/></svg></span><strong>Compress for forms</strong><span>Try a 100 KB or 300 KB limit</span><span class="tool-link">Set file limit <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="custom"><span class="tool-icon resize-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/><path d="M8 8h8v8H8z"/></svg></span><strong>Custom image resize</strong><span>Set your own width, height and crop mode</span><span class="tool-link">Open resizer <b>→</b></span></button>
+        <button class="tool-card" type="button" data-scroll-target="background-remover"><span class="tool-icon bg-remove-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17l2 2 4-5"/></svg></span><strong>Remove background</strong><span>Make transparent PNGs right in your browser</span><span class="tool-link">Remove background <b>→</b></span></button>
+      </div>
+    </section>
+
+
+    <section class="background-remover-section" id="background-remover" aria-labelledby="bgRemoverHeading">
+      <div class="section-heading">
+        <div><div class="eyebrow">NEW · BROWSER-BASED AI</div><h2 id="bgRemoverHeading">Remove image backgrounds</h2></div>
+        <p>Make a transparent PNG, or place your cut-out on a white, blue or custom background.</p>
+      </div>
+      <div class="panel bg-remover-panel">
+        <div class="bg-remover-intro">
+          <span class="bg-remover-badge"><span aria-hidden="true">✦</span> AI-powered · On your device</span>
+          <p>Choose a photo and remove its background. Your photo is processed in this browser, not uploaded to PixelFit.</p>
+          <p class="bg-remover-model-note"><strong>One-time AI download</strong><br>The AI model is downloaded on your first use and may be reused on future visits to save data. Your photos are processed on your device. The first download needs an internet connection (about 94 MiB for the lightweight model). If your browser clears stored data, the model may need to download again.</p>
+        </div>
+        <div class="bg-remover-layout">
+          <div class="bg-remover-controls">
+            <input id="bgFileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <button class="bg-upload-zone" id="bgUploadButton" type="button" aria-controls="bgFileInput">
+              <span class="bg-upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></span>
+              <strong id="bgUploadTitle">Choose a photo</strong>
+              <span>JPG, PNG or WebP · up to 30 MB</span>
+              <small>Or drag and drop an image here</small>
+            </button>
+            <p id="bgFileInfo" class="bg-file-info" hidden></p>
+            <div class="bg-action-row">
+              <button type="button" class="primary-button" id="bgRemoveButton" disabled><span>Remove background</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              <button type="button" class="secondary-button" id="bgClearButton" disabled>Clear</button>
+            </div>
+            <div id="bgProgressWrap" class="bg-progress-wrap" hidden>
+              <div class="bg-progress-heading"><span id="bgProgressLabel">Preparing the AI model…</span><strong id="bgProgressPercent">0%</strong></div>
+              <progress id="bgProgress" max="100" value="0">0%</progress>
+            </div>
+            <p id="bgStatus" class="bg-status" role="status" aria-live="polite">Choose a photo to start.</p>
+          </div>
+          <div class="bg-remover-results">
+            <div class="bg-preview-grid">
+              <div class="bg-preview-card">
+                <h3>Original</h3>
+                <div class="bg-preview-frame"><div class="bg-preview-empty" id="bgOriginalEmpty">Your original photo will appear here.</div><img id="bgOriginalPreview" alt="Original photo preview" hidden></div>
+              </div>
+              <div class="bg-preview-card">
+                <h3>Background removed</h3>
+                <div class="bg-preview-frame checkerboard" id="bgResultFrame"><div class="bg-preview-empty" id="bgResultEmpty">The transparent result will appear here.</div><img id="bgResultPreview" alt="Photo with background removed" hidden></div>
+              </div>
+            </div>
+            <div id="bgExportControls" class="bg-export-controls" hidden>
+              <label class="bg-export-label" for="bgBackgroundSelect">Background for download</label>
+              <div class="bg-export-row">
+                <select class="control" id="bgBackgroundSelect">
+                  <option value="transparent">Transparent PNG</option>
+                  <option value="white">White background</option>
+                  <option value="blue">Blue background</option>
+                  <option value="custom">Custom color</option>
+                </select>
+                <input type="color" id="bgCustomColor" value="#f7f8fc" aria-label="Choose custom background color" hidden>
+              </div>
+              <button type="button" class="primary-button bg-download-button" id="bgDownloadButton"><span>Download PNG</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 19h16"/></svg></button>
+              <p class="bg-export-note">PNG preserves transparency. If you select a solid color, that color is included in the downloaded PNG.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading"><div><div class="eyebrow">NO COMPLICATED STEPS</div><h2>Three steps. That's it.</h2></div></div>
+      <div class="how-grid">
+        <div class="how-card"><span>1</span><h3>Upload</h3><p>Select a photo from your computer or phone. You can also drag and drop it.</p></div>
+        <div class="how-card"><span>2</span><h3>Customize</h3><p>Choose a social size, wallpaper resolution, output format or file-size target.</p></div>
+        <div class="how-card"><span>3</span><h3>Download</h3><p>Preview the result and save it directly to your device. No account required.</p></div>
+      </div>
+    </section>
+
+    <section class="faq-section" id="faq" aria-labelledby="faqHeading">
+      <div class="section-heading faq-heading-row">
+        <div><div class="eyebrow">HELP CENTER</div><h2 id="faqHeading">Visitor FAQs &amp; Guide</h2></div>
+        <div class="faq-language-switch" role="group" aria-label="FAQ language">
+          <button type="button" data-faq-language="en" aria-pressed="true" class="is-active">English</button>
+          <button type="button" data-faq-language="ur" aria-pressed="false">Roman Urdu</button>
+        </div>
+      </div>
+      <p class="faq-intro"><span data-faq-text="en">Practical answers to common image resizing, compression, conversion and wallpaper questions.</span><span data-faq-text="ur" hidden>Image resize, compression, conversion aur wallpaper se mutalliq aam sawalon ke asaan jawab.</span></p>
+
+      <details>
+        <summary><span data-faq-text="en">Can I select a ready-made size for Instagram, Facebook or WhatsApp Status?</span><span data-faq-text="ur" hidden>Kya Instagram, Facebook ya WhatsApp Status ke liye ready-made size select kar sakta hoon?</span></summary>
+        <p data-faq-text="en">Yes. In Step 02, open “Quick size presets” and choose a preset such as Instagram Square, Portrait or Story/Reel, TikTok, or WhatsApp Status (1080 × 1920). You do not need to enter the dimensions manually. Preview the crop before exporting.</p>
+        <p data-faq-text="ur" hidden>Ji haan. Step 02 mein “Quick size presets” khol kar Instagram Square, Portrait ya Story/Reel, TikTok, ya WhatsApp Status (1080 × 1920) select karein. Dimensions khud likhne ki zaroorat nahi. Export se pehle crop ka preview zaroor dekh lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">How do I make a square photo for Pak Army or another official form?</span><span data-faq-text="ur" hidden>Pak Army ya kisi official form ke liye square photo kaise banaoon?</span></summary>
+        <p data-faq-text="en">In Step 02, choose “Forms & documents” → “Square photo (600 × 600)”. If your form also has a file-size limit, enable “Try to fit a file-size limit” and enter the required KB limit. Requirements differ by application, so check the official portal for the exact dimensions, background, dress code and maximum file size before uploading.</p>
+        <p data-faq-text="ur" hidden>Step 02 mein “Forms & documents” se “Square photo (600 × 600)” select karein. Agar form par file-size limit bhi di gayi hai to “Try to fit a file-size limit” on karke required KB enter karein. Har application ki requirements mukhtalif ho sakti hain, is liye upload se pehle official portal par dimensions, background, dress code aur maximum file size check kar lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Can I make an image 100 KB or another specific size?</span><span data-faq-text="ur" hidden>Kya image ko 100 KB ya kisi aur khaas size tak la sakta hoon?</span></summary>
+        <p data-faq-text="en">Enable “Try to fit a file-size limit”, enter your target in KB, and export. PixelFit adjusts compression and can also reduce dimensions if you enable “Reduce dimensions if needed”. This is best-effort, not a guarantee for every image. Read the result message and check the downloaded file size before submitting it.</p>
+        <p data-faq-text="ur" hidden>“Try to fit a file-size limit” on karein, target KB mein likhein aur export karein. PixelFit compression adjust karta hai; “Reduce dimensions if needed” on ho to dimensions bhi chhoti kar sakta hai. Har image ke liye target ki guarantee nahi hoti. Result ka message aur downloaded file ka actual size check kar ke hi form par submit karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">What if part of my photo gets cropped when making a desktop wallpaper?</span><span data-faq-text="ur" hidden>Desktop wallpaper banate waqt photo ka hissa cut ho jaye to kya karoon?</span></summary>
+        <p data-faq-text="en">Choose “Fit entire image” if you want to keep the whole picture; this may leave margins. Choose “Fill & crop” to cover the whole frame edge-to-edge, but some edges may be cut off. You can choose a background color for the empty margins.</p>
+        <p data-faq-text="ur" hidden>Agar poori tasveer bachani hai to “Fit entire image” select karein; is se sides par khaali margins aa sakte hain. Screen ko poora bharna ho to “Fill & crop” select karein, lekin tasveer ke kuch kinare cut ho sakte hain. Khaali margins ke liye background color bhi select kar sakte hain.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Are my personal photos uploaded or saved on a server?</span><span data-faq-text="ur" hidden>Kya meri personal photos kisi server par upload ya save hoti hain?</span></summary>
+        <p data-faq-text="en">PixelFit processes the selected image locally in your browser and does not upload the image to PixelFit. The website itself is delivered by its hosting provider, and your device and browser security still matter. Avoid using a shared or untrusted device for sensitive photos.</p>
+        <p data-faq-text="ur" hidden>PixelFit aapki select ki hui image ko browser mein locally process karta hai aur image ko PixelFit par upload nahi karta. Website khud hosting provider se load hoti hai, aur aapke device aur browser ki security bhi aham hai. Sensitive photos ke liye shared ya ghair-motabar device istemal na karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Which image formats can I convert?</span><span data-faq-text="ur" hidden>Main kin image formats ko convert kar sakta hoon?</span></summary>
+        <p data-faq-text="en">You can export to JPG/JPEG, PNG or WebP. JPG and WebP are useful when a smaller file is needed; PNG can preserve transparency. When converting a transparent image to JPG, the transparent area is filled with the selected background color.</p>
+        <p data-faq-text="ur" hidden>Aap JPG/JPEG, PNG ya WebP mein export kar sakte hain. Chhoti file ke liye JPG aur WebP useful hain; PNG transparency rakh sakta hai. Transparent image ko JPG mein convert karte waqt transparent hissa aapke select kiye hue background color se fill hota hai.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Is PixelFit free, and do I need to create an account?</span><span data-faq-text="ur" hidden>Kya PixelFit free hai, aur account banana zaroori hai?</span></summary>
+        <p data-faq-text="en">PixelFit’s current tools are free to use and do not require an account, API key or separate app installation. Open the website in a modern browser, choose your image, adjust the settings and download the result.</p>
+        <p data-faq-text="ur" hidden>PixelFit ke mojooda tools free hain aur account, API key ya alag app install karne ki zaroorat nahi. Website modern browser mein kholein, image select karein, settings adjust karein aur result download kar lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">How do I remove an image background?</span><span data-faq-text="ur" hidden>Image ka background kaise remove karoon?</span></summary>
+        <p data-faq-text="en">Open “Remove background”, choose a JPG, PNG or WebP photo, and select “Remove background”. The first use downloads the browser-based AI engine and its model; your photo itself is not uploaded to PixelFit. When it finishes, download a transparent PNG or choose a white, blue or custom background.</p>
+        <p data-faq-text="ur" hidden>“Remove background” section kholein, JPG, PNG ya WebP photo select karein aur “Remove background” dabayein. Pehli dafa browser AI engine aur model download karega; aapki photo PixelFit par upload nahi hoti. Kaam complete hone par transparent PNG download karein ya white, blue ya custom background select karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Does the background remover work without an internet connection?</span><span data-faq-text="ur" hidden>Kya background remover internet ke baghair chalta hai?</span></summary>
+        <p data-faq-text="en">An internet connection is needed the first time to download the AI engine and model. The browser may reuse cached files on later visits, but offline availability depends on the browser cache and device storage.</p>
+        <p data-faq-text="ur" hidden>Pehli dafa AI engine aur model download karne ke liye internet chahiye. Baad mein browser cached files dobara use kar sakta hai, lekin offline chalna browser cache aur device storage par depend karta hai.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-copy"><strong>PixelFit</strong><small>FREE IMAGE TOOLKIT</small></span></a>
+      <p>Useful image tools. No uploads. No fuss.</p>
+      <div class="footer-links"><button class="footer-contact-button" id="footerContactButton" type="button" aria-haspopup="dialog" aria-controls="contactDialog">Contact support</button><span>© <span id="year">2026</span> PixelFit</span></div>
+    </div>
+    <p class="footer-note">PixelFit is an independent utility and is not affiliated with Instagram, YouTube, Facebook, TikTok, WhatsApp, LinkedIn, Pinterest or X. Platform dimensions are reference presets and may change.</p>
+  </footer>
+
+  <dialog id="contactDialog" class="contact-dialog" aria-labelledby="contactHeading">
+    <div class="contact-dialog-header">
+      <div>
+        <p class="contact-eyebrow">PIXELFIT SUPPORT</p>
+        <h2 id="contactHeading">How can we help?</h2>
+      </div>
+      <button type="button" id="closeContactButton" class="dialog-close" aria-label="Close contact window">×</button>
+    </div>
+    <p class="contact-intro">Questions, suggestions, or found a bug? Reach the PixelFit team by email.</p>
+    <div class="contact-email-card">
+      <div class="contact-email-icon" aria-hidden="true">@</div>
+      <div class="contact-email-copy">
+        <span>Support email</span>
+        <strong id="supportEmailText">udc.officialteam@gmail.com</strong>
+      </div>
+      <button type="button" id="copyEmailButton" class="secondary-button">Copy email</button>
+    </div>
+    <a class="contact-mail-button" href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Open email app <span aria-hidden="true">↗</span></a>
+    <p id="contactFeedback" class="contact-feedback" role="status" aria-live="polite"></p>
+    <p class="contact-note">If your email app does not open, use “Copy email” and send your message from Gmail or any email service. This free static website does not send messages itself.</p>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
