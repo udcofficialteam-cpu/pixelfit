@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Resize, crop, compress and convert images for social media, forms and desktop wallpapers. Free, private and processed in your browser.">
+  <title>PixelFit — Free Image Resizer, Converter & Wallpaper Maker</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="PixelFit home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>PixelFit</strong><small>FREE IMAGE TOOLKIT</small></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="#tools">Tools</a>
+        <a href="#how-it-works">How it works</a>
+        <a class="nav-contact" href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> FREE · SIMPLE · PRIVATE</div>
+      <h1>Every image.<br><span>The right size.</span></h1>
+      <p class="hero-copy">Resize for social media, make a perfect desktop wallpaper, compress large files, or convert formats — all in one place.</p>
+      <div class="trust-row">
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> Images stay on your device</span>
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg> No account or API key</span>
+      </div>
+    </section>
+
+    <section class="workspace" aria-label="Image editing tool">
+      <div class="panel upload-panel">
+        <div class="panel-heading">
+          <span class="step-number">01</span>
+          <div><h2>Add your image</h2><p>Choose a file from your device</p></div>
+        </div>
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden>
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose an image or drag and drop one here">
+          <div class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></div>
+          <strong>Drop your image here</strong>
+          <span>or <button id="browseButton" class="inline-button" type="button">browse files</button></span>
+          <small>JPG, PNG, WebP, GIF or BMP · up to 30 MB</small>
+        </div>
+        <div id="sourceCard" class="source-card" hidden>
+          <div class="source-preview-wrap"><img id="sourcePreview" alt="Uploaded image preview"></div>
+          <div class="source-details">
+            <strong id="sourceName" class="file-name">image.jpg</strong>
+            <span id="sourceMeta">Original dimensions</span>
+            <span id="sourceBytes" class="muted-small">File size</span>
+            <button type="button" id="replaceButton" class="text-button">Choose another image</button>
+          </div>
+        </div>
+        <div class="privacy-note"><span class="lock-symbol" aria-hidden="true">●</span><span><strong>Private by design.</strong> Your image is processed locally in this browser. It is not uploaded to PixelFit.</span></div>
+        <p class="error-message" id="uploadError" role="alert" hidden></p>
+      </div>
+
+      <div class="panel settings-panel">
+        <div class="panel-heading">
+          <span class="step-number">02</span>
+          <div><h2>Make it fit</h2><p>Pick a preset or enter your own size</p></div>
+        </div>
+
+        <label class="field-label" for="presetSelect">Quick size presets</label>
+        <select id="presetSelect" class="control select-control">
+          <option value="original">Keep original dimensions</option>
+          <optgroup label="Instagram">
+            <option value="instagram-square">Post — Square (1080 × 1080)</option>
+            <option value="instagram-portrait">Post — Portrait (1080 × 1350)</option>
+            <option value="instagram-story">Story / Reel (1080 × 1920)</option>
+          </optgroup>
+          <optgroup label="YouTube">
+            <option value="youtube-thumbnail">Thumbnail (1280 × 720)</option>
+            <option value="youtube-banner">Channel banner (2560 × 1440)</option>
+            <option value="youtube-profile">Profile picture (800 × 800)</option>
+          </optgroup>
+          <optgroup label="Other social media">
+            <option value="facebook-post">Facebook post (1200 × 630)</option>
+            <option value="facebook-cover">Facebook cover (1640 × 624)</option>
+            <option value="tiktok-video">TikTok video / cover (1080 × 1920)</option>
+            <option value="whatsapp-status">WhatsApp status (1080 × 1920)</option>
+            <option value="linkedin-post">LinkedIn post (1200 × 627)</option>
+            <option value="pinterest-pin">Pinterest pin (1000 × 1500)</option>
+            <option value="x-post">X post (1600 × 900)</option>
+          </optgroup>
+          <optgroup label="Desktop wallpapers">
+            <option value="wallpaper-hd">HD (1280 × 720)</option>
+            <option value="wallpaper-laptop">Laptop (1366 × 768)</option>
+            <option value="wallpaper-fhd">Full HD (1920 × 1080)</option>
+            <option value="wallpaper-qhd">QHD (2560 × 1440)</option>
+            <option value="wallpaper-4k">4K UHD (3840 × 2160)</option>
+            <option value="wallpaper-ultrawide">Ultrawide (3440 × 1440)</option>
+            <option value="wallpaper-phone">Phone wallpaper (1080 × 2400)</option>
+          </optgroup>
+          <optgroup label="Forms & documents">
+            <option value="square-photo">Square photo (600 × 600)</option>
+          </optgroup>
+          <option value="custom">Custom dimensions</option>
+        </select>
+
+        <div class="dimensions-heading"><span class="field-label">Output dimensions</span><span id="ratioLabel" class="ratio-label">Original ratio</span></div>
+        <div class="dimension-row">
+          <label class="dimension-field"><span>Width <small>px</small></span><input id="widthInput" class="control" type="number" min="1" max="12000" step="1" value="1920" inputmode="numeric"></label>
+          <button type="button" id="lockRatioButton" class="ratio-lock is-locked" aria-pressed="true" aria-label="Unlock aspect ratio" title="Lock aspect ratio"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></button>
+          <label class="dimension-field"><span>Height <small>px</small></span><input id="heightInput" class="control" type="number" min="1" max="12000" step="1" value="1080" inputmode="numeric"></label>
+        </div>
+        <div class="field-hint">Maximum output: 40 megapixels. Keep the ratio locked to avoid stretching.</div>
+
+        <div class="field-grid two-col">
+          <label><span class="field-label">Fit mode</span><select id="fitMode" class="control"><option value="cover">Fill & crop</option><option value="contain">Fit entire image</option><option value="stretch">Stretch to size</option></select></label>
+          <label><span class="field-label">Output format</span><select id="formatSelect" class="control"><option value="image/jpeg">JPG / JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
+        </div>
+        <div class="field-hint mode-hint" id="fitHint">Fill the frame edge-to-edge; parts of the image may be cropped.</div>
+
+        <div class="quality-block" id="qualityBlock">
+          <div class="range-label-row"><label for="qualityRange" class="field-label">Image quality</label><strong id="qualityValue">88%</strong></div>
+          <input id="qualityRange" type="range" min="10" max="100" value="88" step="1">
+          <div class="range-ends"><span>Smaller file</span><span>Higher quality</span></div>
+        </div>
+
+        <div class="target-size-block">
+          <label class="checkbox-line"><input id="targetEnabled" type="checkbox"><span><strong>Try to fit a file-size limit</strong><small>Useful for forms with a KB limit</small></span></label>
+          <div id="targetOptions" class="target-options" hidden>
+            <label class="target-input-wrap" for="targetKB"><span>Target size</span><span class="target-input-group"><input id="targetKB" class="control" type="number" min="5" max="20000" value="300" step="5"><span>KB</span></span></label>
+            <label class="checkbox-line compact"><input id="allowDownscale" type="checkbox"><span><strong>Reduce dimensions if needed</strong><small>May make the output smaller than the selected dimensions</small></span></label>
+          </div>
+        </div>
+        <label class="background-row" id="backgroundRow"><span><span class="field-label">Background for margins / JPG transparency</span><small>Used when the image has empty space or transparency.</small></span><input id="backgroundColor" type="color" value="#ffffff" aria-label="Choose background color"></label>
+
+        <button type="button" class="primary-button" id="processButton" disabled><span>Resize & export image</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+        <p id="processStatus" class="process-status" role="status" aria-live="polite">Add an image to get started.</p>
+      </div>
+    </section>
+
+    <section class="result-panel panel" id="resultPanel" hidden aria-labelledby="resultHeading">
+      <div class="result-heading-row">
+        <div class="panel-heading result-title"><span class="step-number success-step">03</span><div><h2 id="resultHeading">Your image is ready</h2><p id="resultSummary">Preview and download your processed image</p></div></div>
+        <button type="button" id="startOverButton" class="secondary-button">Start over</button>
+      </div>
+      <div class="result-layout">
+        <div class="output-preview-wrap"><img id="outputPreview" alt="Processed image preview"></div>
+        <div class="output-details">
+          <span class="ready-chip"><span></span> Ready to download</span>
+          <h3 id="outputName">image-pixelfit.jpg</h3>
+          <div class="stats-grid">
+            <div class="stat-box"><span>Dimensions</span><strong id="outputDimensions">1920 × 1080</strong></div>
+            <div class="stat-box"><span>File size</span><strong id="outputSize">—</strong></div>
+            <div class="stat-box"><span>Format</span><strong id="outputFormat">JPG</strong></div>
+            <div class="stat-box"><span>Change</span><strong id="outputChange">—</strong></div>
+          </div>
+          <p id="targetNotice" class="target-notice" hidden></p>
+          <a id="downloadButton" class="primary-button download-button" href="#" download="image-pixelfit.jpg"><span>Download image</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 19h16"/></svg></a>
+          <p class="download-note">Your download is saved directly to your device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading"><div><div class="eyebrow">ONE TOOLKIT, MANY USES</div><h2>What do you need today?</h2></div><p>Pick a common task to set up the right dimensions instantly.</p></div>
+      <div class="tool-cards">
+        <button class="tool-card" type="button" data-preset="instagram-square"><span class="tool-icon social-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="fill-dot" cx="17.5" cy="6.5" r="1"/></svg></span><strong>Social media</strong><span>Posts, stories, reels and covers</span><span class="tool-link">Choose a size <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="wallpaper-fhd"><span class="tool-icon wallpaper-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="14" rx="2"/><path d="M8 21h8m-4-3.5V21M5 14l4-4 3 3 3-5 4 6"/></svg></span><strong>Desktop wallpaper</strong><span>Full HD, 4K, laptop and ultrawide</span><span class="tool-link">Choose a size <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="custom" data-format="image/webp"><span class="tool-icon convert-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7h-7l2.5-2.5M4 17h7L8.5 19.5M20 7l-3-3M4 17l3 3M4 7a8 8 0 0 1 13-2.5M20 17a8 8 0 0 1-13 2.5"/></svg></span><strong>Convert formats</strong><span>JPG, PNG and WebP</span><span class="tool-link">Choose a format <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="original" data-target="100"><span class="tool-icon compress-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H4v4m12-4h4v4M4 17v4h4m12-4v4h-4M8 8l3 3m5-3-3 3m-2 2-3 3m5-3 3 3"/></svg></span><strong>Compress for forms</strong><span>Try a 100 KB or 300 KB limit</span><span class="tool-link">Set file limit <b>→</b></span></button>
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading"><div><div class="eyebrow">NO COMPLICATED STEPS</div><h2>Three steps. That's it.</h2></div></div>
+      <div class="how-grid">
+        <div class="how-card"><span>1</span><h3>Upload</h3><p>Select a photo from your computer or phone. You can also drag and drop it.</p></div>
+        <div class="how-card"><span>2</span><h3>Customize</h3><p>Choose a social size, wallpaper resolution, output format or file-size target.</p></div>
+        <div class="how-card"><span>3</span><h3>Download</h3><p>Preview the result and save it directly to your device. No account required.</p></div>
+      </div>
+    </section>
+
+    <section class="faq-section" aria-labelledby="faqHeading">
+      <div class="section-heading"><div><div class="eyebrow">GOOD TO KNOW</div><h2 id="faqHeading">A few quick answers</h2></div></div>
+      <details><summary>Are my images uploaded to a server?</summary><p>No. PixelFit uses your browser to process the image. The image itself is not sent to PixelFit's server. As with any website, the static page still needs to load from its hosting provider.</p></details>
+      <details><summary>Can I make an image exactly 100 KB?</summary><p>PixelFit can try to get the file at or below a target size by adjusting compression and, if you enable it, dimensions. Exact size is not always possible at the same dimensions without visible quality loss. Always check the final file size before submitting a form.</p></details>
+      <details><summary>Which formats are supported?</summary><p>The current version supports common JPG/JPEG, PNG and WebP outputs. GIF and BMP may be accepted as source images when your browser can decode them, but output is a still image. HEIC/HEIF, TIFF and animated output formats are not supported in this initial version.</p></details>
+      <details><summary>Will a wallpaper fit my exact monitor?</summary><p>Choose a listed resolution or enter your monitor's exact width and height. Fill & crop fills the whole frame but may cut off edges; Fit entire image keeps the whole picture and may add margins.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-copy"><strong>PixelFit</strong><small>FREE IMAGE TOOLKIT</small></span></a>
+      <p>Useful image tools. No uploads. No fuss.</p>
+      <div class="footer-links"><a href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Contact support</a><span>© <span id="year">2026</span> PixelFit</span></div>
+    </div>
+    <p class="footer-note">PixelFit is an independent utility and is not affiliated with Instagram, YouTube, Facebook, TikTok, WhatsApp, LinkedIn, Pinterest or X. Platform dimensions are reference presets and may change.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
