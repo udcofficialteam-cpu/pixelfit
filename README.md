@@ -73,3 +73,7 @@ The top navigation focuses on the main visitor actions: Home, All Tools, FAQ, an
 To update the connected Vercel deployment, upload all files from this package to the root of the existing GitHub repository, replacing files with matching names, then commit the changes. No build command, backend, database or API key is required.
 
 Review the Privacy Policy before enabling ads; update it to match the actual ad/analytics services and consent requirements you configure.
+
+## AdSense preparation note
+
+The Privacy Policy includes a disclosure for potential Google AdSense advertising cookies and links to Google Ads Settings and aboutads.info choices. Before serving ads, configure AdSense settings and any consent message or certified CMP required for your audience and applicable policies. This policy is a starting point; keep it accurate for the services actually enabled.
