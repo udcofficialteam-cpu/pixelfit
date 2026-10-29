@@ -68,7 +68,7 @@ PixelFit does not upload the selected image. Image decoding, drawing, compressio
 
 ## Navigation and information pages update
 
-This package includes top navigation links for Home, Image Resizer, All Tools, Background Remover, FAQ, About, Privacy Policy, Terms, and Contact. On narrow screens the navigation is horizontally scrollable so every link remains available. About, Privacy Policy and Terms are separate static HTML pages. `robots.txt` and `sitemap.xml` are also included.
+The top navigation focuses on the main visitor actions: Home, All Tools, FAQ, and Contact. The Image Resizer and Background Remover are available from the homepage and All Tools section, so the header stays uncluttered. About, Privacy Policy, and Terms remain in the footer. On legal pages, Home, All Tools and FAQ link back to the homepage; Contact opens the visitor's email app. On narrow screens the navigation is horizontally scrollable. About, Privacy Policy and Terms are separate static HTML pages. `robots.txt` and `sitemap.xml` are also included.
 
 To update the connected Vercel deployment, upload all files from this package to the root of the existing GitHub repository, replacing files with matching names, then commit the changes. No build command, backend, database or API key is required.
 

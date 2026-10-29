@@ -664,7 +664,7 @@
     }
   }
 
-  el.contactButton.addEventListener('click', openContactDialog);
+  if (el.contactButton) el.contactButton.addEventListener('click', openContactDialog);
   el.footerContactButton.addEventListener('click', openContactDialog);
   el.closeContactButton.addEventListener('click', closeContactDialog);
   el.copyEmailButton.addEventListener('click', copySupportEmail);
