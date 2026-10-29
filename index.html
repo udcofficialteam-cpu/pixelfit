@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f8fc">
-  <meta name="description" content="Resize, crop, compress and convert images for social media, forms and desktop wallpapers. Free, private and processed in your browser.">
+  <meta name="description" content="Resize, crop, compress, convert images, and remove photo backgrounds online for free. Make social media graphics, form photos and desktop wallpapers with PixelFit.">
   <title>PixelFit — Free Image Resizer, Converter & Wallpaper Maker</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
@@ -30,7 +30,7 @@
     <section class="hero" id="top">
       <div class="eyebrow"><span class="eyebrow-dot"></span> FREE · SIMPLE · PRIVATE</div>
       <h1>Every image.<br><span>The right size.</span></h1>
-      <p class="hero-copy">Resize for social media, make a perfect desktop wallpaper, compress large files, or convert formats — all in one place.</p>
+      <p class="hero-copy">Resize for social media, remove photo backgrounds, make a desktop wallpaper, compress files or convert formats — all in one place.</p>
       <div class="trust-row">
         <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> Images stay on your device</span>
         <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg> No account or API key</span>
@@ -170,6 +170,70 @@
         <button class="tool-card" type="button" data-preset="wallpaper-fhd"><span class="tool-icon wallpaper-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="14" rx="2"/><path d="M8 21h8m-4-3.5V21M5 14l4-4 3 3 3-5 4 6"/></svg></span><strong>Desktop wallpaper</strong><span>Full HD, 4K, laptop and ultrawide</span><span class="tool-link">Choose a size <b>→</b></span></button>
         <button class="tool-card" type="button" data-preset="custom" data-format="image/webp"><span class="tool-icon convert-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7h-7l2.5-2.5M4 17h7L8.5 19.5M20 7l-3-3M4 17l3 3M4 7a8 8 0 0 1 13-2.5M20 17a8 8 0 0 1-13 2.5"/></svg></span><strong>Convert formats</strong><span>JPG, PNG and WebP</span><span class="tool-link">Choose a format <b>→</b></span></button>
         <button class="tool-card" type="button" data-preset="original" data-target="100"><span class="tool-icon compress-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H4v4m12-4h4v4M4 17v4h4m12-4v4h-4M8 8l3 3m5-3-3 3m-2 2-3 3m5-3 3 3"/></svg></span><strong>Compress for forms</strong><span>Try a 100 KB or 300 KB limit</span><span class="tool-link">Set file limit <b>→</b></span></button>
+        <button class="tool-card" type="button" data-preset="custom"><span class="tool-icon resize-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/><path d="M8 8h8v8H8z"/></svg></span><strong>Custom image resize</strong><span>Set your own width, height and crop mode</span><span class="tool-link">Open resizer <b>→</b></span></button>
+        <button class="tool-card" type="button" data-scroll-target="background-remover"><span class="tool-icon bg-remove-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M14 17l2 2 4-5"/></svg></span><strong>Remove background</strong><span>Make transparent PNGs right in your browser</span><span class="tool-link">Remove background <b>→</b></span></button>
+      </div>
+    </section>
+
+
+    <section class="background-remover-section" id="background-remover" aria-labelledby="bgRemoverHeading">
+      <div class="section-heading">
+        <div><div class="eyebrow">NEW · BROWSER-BASED AI</div><h2 id="bgRemoverHeading">Remove image backgrounds</h2></div>
+        <p>Make a transparent PNG, or place your cut-out on a white, blue or custom background.</p>
+      </div>
+      <div class="panel bg-remover-panel">
+        <div class="bg-remover-intro">
+          <span class="bg-remover-badge"><span aria-hidden="true">✦</span> AI-powered · On your device</span>
+          <p>Choose a photo and remove its background. Your photo is processed in this browser, not uploaded to PixelFit.</p>
+          <p class="bg-remover-model-note">First use needs an internet connection to load the background-removal engine and its model (about 94 MiB for the lightweight model). Your photo stays on your device.</p>
+        </div>
+        <div class="bg-remover-layout">
+          <div class="bg-remover-controls">
+            <input id="bgFileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <button class="bg-upload-zone" id="bgUploadButton" type="button" aria-controls="bgFileInput">
+              <span class="bg-upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></span>
+              <strong id="bgUploadTitle">Choose a photo</strong>
+              <span>JPG, PNG or WebP · up to 30 MB</span>
+              <small>Or drag and drop an image here</small>
+            </button>
+            <p id="bgFileInfo" class="bg-file-info" hidden></p>
+            <div class="bg-action-row">
+              <button type="button" class="primary-button" id="bgRemoveButton" disabled><span>Remove background</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+              <button type="button" class="secondary-button" id="bgClearButton" disabled>Clear</button>
+            </div>
+            <div id="bgProgressWrap" class="bg-progress-wrap" hidden>
+              <div class="bg-progress-heading"><span id="bgProgressLabel">Preparing the AI model…</span><strong id="bgProgressPercent">0%</strong></div>
+              <progress id="bgProgress" max="100" value="0">0%</progress>
+            </div>
+            <p id="bgStatus" class="bg-status" role="status" aria-live="polite">Choose a photo to start.</p>
+          </div>
+          <div class="bg-remover-results">
+            <div class="bg-preview-grid">
+              <div class="bg-preview-card">
+                <h3>Original</h3>
+                <div class="bg-preview-frame"><div class="bg-preview-empty" id="bgOriginalEmpty">Your original photo will appear here.</div><img id="bgOriginalPreview" alt="Original photo preview" hidden></div>
+              </div>
+              <div class="bg-preview-card">
+                <h3>Background removed</h3>
+                <div class="bg-preview-frame checkerboard" id="bgResultFrame"><div class="bg-preview-empty" id="bgResultEmpty">The transparent result will appear here.</div><img id="bgResultPreview" alt="Photo with background removed" hidden></div>
+              </div>
+            </div>
+            <div id="bgExportControls" class="bg-export-controls" hidden>
+              <label class="bg-export-label" for="bgBackgroundSelect">Background for download</label>
+              <div class="bg-export-row">
+                <select class="control" id="bgBackgroundSelect">
+                  <option value="transparent">Transparent PNG</option>
+                  <option value="white">White background</option>
+                  <option value="blue">Blue background</option>
+                  <option value="custom">Custom color</option>
+                </select>
+                <input type="color" id="bgCustomColor" value="#f7f8fc" aria-label="Choose custom background color" hidden>
+              </div>
+              <button type="button" class="primary-button bg-download-button" id="bgDownloadButton"><span>Download PNG</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 19h16"/></svg></button>
+              <p class="bg-export-note">PNG preserves transparency. If you select a solid color, that color is included in the downloaded PNG.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -232,6 +296,18 @@
         <summary><span data-faq-text="en">Is PixelFit free, and do I need to create an account?</span><span data-faq-text="ur" hidden>Kya PixelFit free hai, aur account banana zaroori hai?</span></summary>
         <p data-faq-text="en">PixelFit’s current tools are free to use and do not require an account, API key or separate app installation. Open the website in a modern browser, choose your image, adjust the settings and download the result.</p>
         <p data-faq-text="ur" hidden>PixelFit ke mojooda tools free hain aur account, API key ya alag app install karne ki zaroorat nahi. Website modern browser mein kholein, image select karein, settings adjust karein aur result download kar lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">How do I remove an image background?</span><span data-faq-text="ur" hidden>Image ka background kaise remove karoon?</span></summary>
+        <p data-faq-text="en">Open “Remove background”, choose a JPG, PNG or WebP photo, and select “Remove background”. The first use downloads the browser-based AI engine and its model; your photo itself is not uploaded to PixelFit. When it finishes, download a transparent PNG or choose a white, blue or custom background.</p>
+        <p data-faq-text="ur" hidden>“Remove background” section kholein, JPG, PNG ya WebP photo select karein aur “Remove background” dabayein. Pehli dafa browser AI engine aur model download karega; aapki photo PixelFit par upload nahi hoti. Kaam complete hone par transparent PNG download karein ya white, blue ya custom background select karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Does the background remover work without an internet connection?</span><span data-faq-text="ur" hidden>Kya background remover internet ke baghair chalta hai?</span></summary>
+        <p data-faq-text="en">An internet connection is needed the first time to download the AI engine and model. The browser may reuse cached files on later visits, but offline availability depends on the browser cache and device storage.</p>
+        <p data-faq-text="ur" hidden>Pehli dafa AI engine aur model download karne ke liye internet chahiye. Baad mein browser cached files dobara use kar sakta hai, lekin offline chalna browser cache aur device storage par depend karta hai.</p>
       </details>
     </section>
   </main>

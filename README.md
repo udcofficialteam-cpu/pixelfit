@@ -10,11 +10,15 @@ PixelFit is a static, browser-based image utility for resizing, cropping, compre
 - Presets for Instagram, YouTube, Facebook, TikTok, WhatsApp, LinkedIn, Pinterest, X, and common wallpaper resolutions
 - Fit, fill-and-crop, and stretch modes
 - Convert to JPG/JPEG, PNG, or WebP
+- Browser-based background remover with transparent PNG output and optional white, blue, or custom solid background
 - JPG/WebP quality setting
 - Optional file-size target; can optionally reduce dimensions to help meet it
 - Preview, output dimensions, file size, file-size difference, and download
 - Image is processed locally in the browser; no image API or upload endpoint is used
-- No npm dependencies, API keys, database, or custom backend
+- Bilingual FAQ section with English / Roman Urdu toggle
+- Contact dialog with a copy-email action and an optional mailto link
+- No PixelFit image-upload endpoint, API key, database, build step, or custom backend
+- Background-removal engine is loaded on demand from a public ESM CDN; the lightweight model is downloaded on first use (about 94 MiB on supported desktop/Android paths) and may be cached by the browser
 
 ## Files
 
@@ -38,6 +42,12 @@ Open `index.html` in a current browser, or serve the folder with any simple stat
 
 No `package.json`, serverless function, API key, or database is needed.
 
+## Background remover notes
+
+- Uses `@bg0/browser` version 0.1.2 via the ESM CDN and its browser-side BiRefNet-lite model. Project code is Apache-2.0; model assets have separate notices/licensing in the upstream repository.
+- The first removal needs internet access for the code/runtime and model downloads. No image bytes are sent to PixelFit; inference and PNG export run in the browser.
+- The model download may be large and background removal can be slow or fail on low-memory devices. This static CDN integration has not been verified on every browser, particularly iOS/Safari. Test it in Chrome/Edge desktop and Android first.
+
 ## Supported formats and limitations
 
 - Output formats: JPG/JPEG, PNG, and WebP (the browser must support WebP export).
@@ -49,7 +59,7 @@ No `package.json`, serverless function, API key, or database is needed.
 
 ## Contact
 
-Support email: [udc.officialteam@gmail.com](mailto:udc.officialteam@gmail.com)
+Support email: [udc.officialteam@gmail.com](mailto:udc.officialteam@gmail.com). The Contact button opens a small support dialog so visitors can copy the address even if their device has no default email app configured. The static site does not send messages directly; an email app or webmail service is still needed to send an email.
 
 ## Privacy
 

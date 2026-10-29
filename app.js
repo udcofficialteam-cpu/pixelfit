@@ -691,6 +691,265 @@
     button.addEventListener('click', () => setFaqLanguage(button.getAttribute('data-faq-language')));
   });
 
+
+
+  // Background remover: browser-only model inference, with no image upload endpoint.
+  const bg = {
+    fileInput: $('bgFileInput'), uploadButton: $('bgUploadButton'), uploadTitle: $('bgUploadTitle'), fileInfo: $('bgFileInfo'),
+    removeButton: $('bgRemoveButton'), clearButton: $('bgClearButton'), status: $('bgStatus'), progressWrap: $('bgProgressWrap'),
+    progressLabel: $('bgProgressLabel'), progressPercent: $('bgProgressPercent'), progress: $('bgProgress'),
+    originalPreview: $('bgOriginalPreview'), originalEmpty: $('bgOriginalEmpty'), resultPreview: $('bgResultPreview'),
+    resultEmpty: $('bgResultEmpty'), resultFrame: $('bgResultFrame'), exportControls: $('bgExportControls'),
+    backgroundSelect: $('bgBackgroundSelect'), customColor: $('bgCustomColor'), downloadButton: $('bgDownloadButton')
+  };
+  const bgState = { file: null, originalUrl: null, resultUrl: null, resultBlob: null, busy: false, removeBackground: null };
+  const BG_MAX_BYTES = 30 * 1024 * 1024;
+
+  function bgSetStatus(message, kind = '') {
+    bg.status.textContent = message;
+    bg.status.classList.toggle('is-error', kind === 'error');
+    bg.status.classList.toggle('is-success', kind === 'success');
+  }
+
+  function bgSetBusy(busy) {
+    bgState.busy = busy;
+    bg.removeButton.disabled = busy || !bgState.file;
+    bg.uploadButton.disabled = busy;
+    bg.clearButton.disabled = busy || !bgState.file;
+    bg.removeButton.querySelector('span').textContent = busy ? 'Removing background…' : 'Remove background';
+    bg.removeButton.setAttribute('aria-busy', String(busy));
+  }
+
+  function bgRevokePreviewUrls() {
+    if (bgState.originalUrl) URL.revokeObjectURL(bgState.originalUrl);
+    if (bgState.resultUrl) URL.revokeObjectURL(bgState.resultUrl);
+    bgState.originalUrl = null;
+    bgState.resultUrl = null;
+  }
+
+  function bgResetResult() {
+    if (bgState.resultUrl) URL.revokeObjectURL(bgState.resultUrl);
+    bgState.resultUrl = null;
+    bgState.resultBlob = null;
+    bg.resultPreview.removeAttribute('src');
+    bg.resultPreview.hidden = true;
+    bg.resultEmpty.hidden = false;
+    bg.exportControls.hidden = true;
+    bg.backgroundSelect.value = 'transparent';
+    bg.customColor.hidden = true;
+    bgUpdatePreviewBackground();
+  }
+
+  function bgChooseColor() {
+    switch (bg.backgroundSelect.value) {
+      case 'white': return '#ffffff';
+      case 'blue': return '#0066cc';
+      case 'custom': return bg.customColor.value;
+      default: return null;
+    }
+  }
+
+  function bgUpdatePreviewBackground() {
+    const color = bgChooseColor();
+    bg.resultFrame.classList.toggle('checkerboard', !color);
+    bg.resultFrame.style.backgroundColor = color || '#ffffff';
+    bg.customColor.hidden = bg.backgroundSelect.value !== 'custom';
+  }
+
+  async function bgLoadFile(file) {
+    if (!file || bgState.busy) return;
+    const allowed = new Set(['image/jpeg', 'image/png', 'image/webp']);
+    if (!allowed.has((file.type || '').toLowerCase())) {
+      bgSetStatus('Please choose a JPG, PNG or WebP image.', 'error');
+      return;
+    }
+    if (!file.size || file.size > BG_MAX_BYTES) {
+      bgSetStatus('Choose a non-empty image smaller than 30 MB for more reliable processing.', 'error');
+      return;
+    }
+    bgRevokePreviewUrls();
+    bgResetResult();
+    bgState.file = file;
+    bgState.originalUrl = URL.createObjectURL(file);
+    bg.originalPreview.src = bgState.originalUrl;
+    bg.originalPreview.hidden = false;
+    bg.originalEmpty.hidden = true;
+    bg.uploadTitle.textContent = 'Choose a different photo';
+    bg.fileInfo.hidden = false;
+    bg.fileInfo.textContent = `${file.name} · ${formatBytes(file.size)}`;
+    bg.progressWrap.hidden = true;
+    bg.progress.value = 0;
+    bg.progressPercent.textContent = '0%';
+    bgSetBusy(false);
+    bgSetStatus('Photo ready. Select “Remove background” to begin.');
+  }
+
+  function bgUpdateProgress(event = {}) {
+    const progress = Number.isFinite(event.progress) ? event.progress : 0;
+    const percentage = Math.max(0, Math.min(100, Math.round(progress <= 1 ? progress * 100 : progress)));
+    bg.progress.value = percentage;
+    bg.progressPercent.textContent = `${percentage}%`;
+    if (event.download && event.download.totalBytes > 0) {
+      bg.progressLabel.textContent = `Downloading AI model: ${formatBytes(event.download.loadedBytes)} / ${formatBytes(event.download.totalBytes)}`;
+    } else {
+      bg.progressLabel.textContent = event.message || 'Processing in your browser…';
+    }
+    bgSetStatus(event.message || 'Processing in your browser…');
+  }
+
+  async function bgEnsureEngine() {
+    if (bgState.removeBackground) return bgState.removeBackground;
+    // The pinned browser package is served as static ESM. Model weights are fetched on demand;
+    // there is no PixelFit backend and the selected image is passed only to the local model.
+    const module = await import('https://esm.sh/@bg0/browser@0.1.2?bundle');
+    if (typeof module.removeBackground !== 'function') {
+      throw new Error('The background-removal engine did not load correctly. Refresh and try again.');
+    }
+    bgState.removeBackground = module.removeBackground;
+    return bgState.removeBackground;
+  }
+
+  async function bgRemove() {
+    if (!bgState.file || bgState.busy) return;
+    bgSetBusy(true);
+    bg.progressWrap.hidden = false;
+    bg.progress.value = 2;
+    bg.progressPercent.textContent = '2%';
+    bg.progressLabel.textContent = 'Loading the browser-based AI engine…';
+    bgSetStatus('Connecting to the public code/model CDN. Your photo is not uploaded.');
+    try {
+      const removeBackground = await bgEnsureEngine();
+      bg.progressLabel.textContent = 'Preparing the lightweight AI model…';
+      const result = await removeBackground(bgState.file, {
+        model: 'lite',
+        quality: 'quality',
+        onProgress: bgUpdateProgress
+      });
+      if (!result || !(result.blob instanceof Blob) || result.blob.size === 0) {
+        throw new Error('The background remover returned an empty result. Please try another photo.');
+      }
+      bgResetResult();
+      bgState.resultBlob = result.blob;
+      bgState.resultUrl = URL.createObjectURL(result.blob);
+      bg.resultPreview.src = bgState.resultUrl;
+      bg.resultPreview.hidden = false;
+      bg.resultEmpty.hidden = true;
+      bg.exportControls.hidden = false;
+      bgUpdatePreviewBackground();
+      bg.progress.value = 100;
+      bg.progressPercent.textContent = '100%';
+      bg.progressLabel.textContent = 'Background removed';
+      bgSetStatus(`Done! Transparent PNG ready (${result.width} × ${result.height}).`, 'success');
+      bg.downloadButton.focus({ preventScroll: true });
+    } catch (error) {
+      const rawMessage = error && typeof error.message === 'string' ? error.message : '';
+      const message = /failed to fetch|network|load|import|module|fetch/i.test(rawMessage)
+        ? 'Could not load the background-removal engine or model. Check your internet connection, refresh the page, and try again. Some browsers may not support this feature in the static version.'
+        : (rawMessage || 'Background removal failed. Try a smaller JPG, PNG or WebP image.');
+      bgSetStatus(message, 'error');
+      bg.progressLabel.textContent = 'Could not complete';
+    } finally {
+      bgSetBusy(false);
+    }
+  }
+
+  async function bgExport() {
+    if (!bgState.resultBlob) return;
+    bg.downloadButton.disabled = true;
+    const originalLabel = bg.downloadButton.querySelector('span').textContent;
+    bg.downloadButton.querySelector('span').textContent = 'Preparing PNG…';
+    try {
+      const fillColor = bgChooseColor();
+      let exportBlob = bgState.resultBlob;
+      if (fillColor) {
+        const bitmap = await createImageBitmap(bgState.resultBlob);
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = bitmap.width;
+          canvas.height = bitmap.height;
+          const context = canvas.getContext('2d');
+          if (!context) throw new Error('Your browser could not create the export canvas.');
+          context.fillStyle = fillColor;
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(bitmap, 0, 0);
+          exportBlob = await new Promise((resolve, reject) => {
+            canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('Could not export the PNG.')), 'image/png');
+          });
+          canvas.width = 0;
+          canvas.height = 0;
+        } finally {
+          bitmap.close?.();
+        }
+      }
+      const downloadUrl = URL.createObjectURL(exportBlob);
+      const link = document.createElement('a');
+      const filename = `${cleanBaseName(bgState.file?.name || 'image')}-pixelfit-no-background.png`;
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
+      bgSetStatus(fillColor ? 'PNG downloaded with the selected background color.' : 'Transparent PNG downloaded successfully.', 'success');
+    } catch (error) {
+      bgSetStatus(error && error.message ? error.message : 'Could not prepare the download. Please try again.', 'error');
+    } finally {
+      bg.downloadButton.disabled = false;
+      bg.downloadButton.querySelector('span').textContent = originalLabel;
+    }
+  }
+
+  function bgClear() {
+    if (bgState.busy) return;
+    bgRevokePreviewUrls();
+    bgState.file = null;
+    bgResetResult();
+    bg.fileInput.value = '';
+    bg.originalPreview.removeAttribute('src');
+    bg.originalPreview.hidden = true;
+    bg.originalEmpty.hidden = false;
+    bg.uploadTitle.textContent = 'Choose a photo';
+    bg.fileInfo.textContent = '';
+    bg.fileInfo.hidden = true;
+    bg.progressWrap.hidden = true;
+    bg.progress.value = 0;
+    bgSetBusy(false);
+    bgSetStatus('Choose a photo to start.');
+  }
+
+  bg.uploadButton.addEventListener('click', () => { if (!bgState.busy) bg.fileInput.click(); });
+  bg.fileInput.addEventListener('change', (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) bgLoadFile(file);
+  });
+  bg.removeButton.addEventListener('click', bgRemove);
+  bg.clearButton.addEventListener('click', bgClear);
+  bg.downloadButton.addEventListener('click', bgExport);
+  bg.backgroundSelect.addEventListener('change', bgUpdatePreviewBackground);
+  bg.customColor.addEventListener('input', bgUpdatePreviewBackground);
+  ['dragenter', 'dragover'].forEach((eventName) => bg.uploadButton.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    bg.uploadButton.classList.add('drag-over');
+  }));
+  ['dragleave', 'drop'].forEach((eventName) => bg.uploadButton.addEventListener(eventName, (event) => {
+    event.preventDefault();
+    bg.uploadButton.classList.remove('drag-over');
+  }));
+  bg.uploadButton.addEventListener('drop', (event) => {
+    const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file) bgLoadFile(file);
+  });
+  document.querySelectorAll('[data-scroll-target]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = document.getElementById(button.getAttribute('data-scroll-target'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        bg.uploadButton.focus({ preventScroll: true });
+      }
+    });
+  });
+
+
   $('year').textContent = new Date().getFullYear();
   updateQualityUi();
   updateFitHint();
