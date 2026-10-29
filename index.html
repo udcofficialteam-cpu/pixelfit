@@ -21,7 +21,7 @@
       <nav class="top-nav" aria-label="Main navigation">
         <a href="#tools">Tools</a>
         <a href="#how-it-works">How it works</a>
-        <a class="nav-contact" href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Contact</a>
+        <button class="nav-contact" id="contactButton" type="button" aria-haspopup="dialog" aria-controls="contactDialog">Contact</button>
       </nav>
     </div>
   </header>
@@ -195,10 +195,32 @@
     <div class="footer-inner">
       <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-copy"><strong>PixelFit</strong><small>FREE IMAGE TOOLKIT</small></span></a>
       <p>Useful image tools. No uploads. No fuss.</p>
-      <div class="footer-links"><a href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Contact support</a><span>© <span id="year">2026</span> PixelFit</span></div>
+      <div class="footer-links"><button class="footer-contact-button" id="footerContactButton" type="button" aria-haspopup="dialog" aria-controls="contactDialog">Contact support</button><span>© <span id="year">2026</span> PixelFit</span></div>
     </div>
     <p class="footer-note">PixelFit is an independent utility and is not affiliated with Instagram, YouTube, Facebook, TikTok, WhatsApp, LinkedIn, Pinterest or X. Platform dimensions are reference presets and may change.</p>
   </footer>
+
+  <dialog id="contactDialog" class="contact-dialog" aria-labelledby="contactHeading">
+    <div class="contact-dialog-header">
+      <div>
+        <p class="contact-eyebrow">PIXELFIT SUPPORT</p>
+        <h2 id="contactHeading">How can we help?</h2>
+      </div>
+      <button type="button" id="closeContactButton" class="dialog-close" aria-label="Close contact window">×</button>
+    </div>
+    <p class="contact-intro">Questions, suggestions, or found a bug? Reach the PixelFit team by email.</p>
+    <div class="contact-email-card">
+      <div class="contact-email-icon" aria-hidden="true">@</div>
+      <div class="contact-email-copy">
+        <span>Support email</span>
+        <strong id="supportEmailText">udc.officialteam@gmail.com</strong>
+      </div>
+      <button type="button" id="copyEmailButton" class="secondary-button">Copy email</button>
+    </div>
+    <a class="contact-mail-button" href="mailto:udc.officialteam@gmail.com?subject=PixelFit%20Support">Open email app <span aria-hidden="true">↗</span></a>
+    <p id="contactFeedback" class="contact-feedback" role="status" aria-live="polite"></p>
+    <p class="contact-note">If your email app does not open, use “Copy email” and send your message from Gmail or any email service. This free static website does not send messages itself.</p>
+  </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>

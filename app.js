@@ -45,7 +45,11 @@
     processStatus: $('processStatus'), resultPanel: $('resultPanel'), resultSummary: $('resultSummary'), startOverButton: $('startOverButton'),
     outputPreview: $('outputPreview'), outputName: $('outputName'), outputDimensions: $('outputDimensions'), outputSize: $('outputSize'),
     outputFormat: $('outputFormat'), outputChange: $('outputChange'), targetNotice: $('targetNotice'), downloadButton: $('downloadButton'),
-    toast: $('toast')
+    toast: $('toast'),
+    contactButton: $('contactButton'), footerContactButton: $('footerContactButton'),
+    contactDialog: $('contactDialog'), closeContactButton: $('closeContactButton'),
+    copyEmailButton: $('copyEmailButton'), contactFeedback: $('contactFeedback'),
+    supportEmailText: $('supportEmailText')
   };
 
   const state = {
@@ -610,6 +614,62 @@
         showToast('Settings selected. Export when you are ready.');
       }
     });
+  });
+
+  function openContactDialog() {
+    el.contactFeedback.textContent = '';
+    if (typeof el.contactDialog.showModal === 'function') {
+      if (!el.contactDialog.open) el.contactDialog.showModal();
+    } else {
+      el.contactDialog.setAttribute('open', '');
+    }
+  }
+
+  function closeContactDialog() {
+    if (typeof el.contactDialog.close === 'function' && el.contactDialog.open) {
+      el.contactDialog.close();
+    } else {
+      el.contactDialog.removeAttribute('open');
+    }
+  }
+
+  async function copySupportEmail() {
+    const email = el.supportEmailText.textContent.trim();
+    try {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        await navigator.clipboard.writeText(email);
+      } else {
+        throw new Error('Clipboard API is unavailable');
+      }
+      el.contactFeedback.textContent = 'Email address copied. Paste it into your email app.';
+      showToast('Support email copied to clipboard.');
+    } catch (_) {
+      // Fallback for browsers where Clipboard API is unavailable or denied.
+      const temporaryInput = document.createElement('textarea');
+      temporaryInput.value = email;
+      temporaryInput.setAttribute('readonly', '');
+      temporaryInput.style.position = 'fixed';
+      temporaryInput.style.opacity = '0';
+      document.body.appendChild(temporaryInput);
+      temporaryInput.select();
+      let copied = false;
+      try { copied = document.execCommand('copy'); } catch (error) { copied = false; }
+      temporaryInput.remove();
+      if (copied) {
+        el.contactFeedback.textContent = 'Email address copied. Paste it into your email app.';
+        showToast('Support email copied to clipboard.');
+      } else {
+        el.contactFeedback.textContent = 'Please select and copy the email address shown above.';
+      }
+    }
+  }
+
+  el.contactButton.addEventListener('click', openContactDialog);
+  el.footerContactButton.addEventListener('click', openContactDialog);
+  el.closeContactButton.addEventListener('click', closeContactDialog);
+  el.copyEmailButton.addEventListener('click', copySupportEmail);
+  el.contactDialog.addEventListener('click', (event) => {
+    if (event.target === el.contactDialog) closeContactDialog();
   });
 
   $('year').textContent = new Date().getFullYear();
