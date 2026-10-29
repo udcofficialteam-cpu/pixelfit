@@ -182,12 +182,57 @@
       </div>
     </section>
 
-    <section class="faq-section" aria-labelledby="faqHeading">
-      <div class="section-heading"><div><div class="eyebrow">GOOD TO KNOW</div><h2 id="faqHeading">A few quick answers</h2></div></div>
-      <details><summary>Are my images uploaded to a server?</summary><p>No. PixelFit uses your browser to process the image. The image itself is not sent to PixelFit's server. As with any website, the static page still needs to load from its hosting provider.</p></details>
-      <details><summary>Can I make an image exactly 100 KB?</summary><p>PixelFit can try to get the file at or below a target size by adjusting compression and, if you enable it, dimensions. Exact size is not always possible at the same dimensions without visible quality loss. Always check the final file size before submitting a form.</p></details>
-      <details><summary>Which formats are supported?</summary><p>The current version supports common JPG/JPEG, PNG and WebP outputs. GIF and BMP may be accepted as source images when your browser can decode them, but output is a still image. HEIC/HEIF, TIFF and animated output formats are not supported in this initial version.</p></details>
-      <details><summary>Will a wallpaper fit my exact monitor?</summary><p>Choose a listed resolution or enter your monitor's exact width and height. Fill & crop fills the whole frame but may cut off edges; Fit entire image keeps the whole picture and may add margins.</p></details>
+    <section class="faq-section" id="faq" aria-labelledby="faqHeading">
+      <div class="section-heading faq-heading-row">
+        <div><div class="eyebrow">HELP CENTER</div><h2 id="faqHeading">Visitor FAQs &amp; Guide</h2></div>
+        <div class="faq-language-switch" role="group" aria-label="FAQ language">
+          <button type="button" data-faq-language="en" aria-pressed="true" class="is-active">English</button>
+          <button type="button" data-faq-language="ur" aria-pressed="false">Roman Urdu</button>
+        </div>
+      </div>
+      <p class="faq-intro"><span data-faq-text="en">Practical answers to common image resizing, compression, conversion and wallpaper questions.</span><span data-faq-text="ur" hidden>Image resize, compression, conversion aur wallpaper se mutalliq aam sawalon ke asaan jawab.</span></p>
+
+      <details>
+        <summary><span data-faq-text="en">Can I select a ready-made size for Instagram, Facebook or WhatsApp Status?</span><span data-faq-text="ur" hidden>Kya Instagram, Facebook ya WhatsApp Status ke liye ready-made size select kar sakta hoon?</span></summary>
+        <p data-faq-text="en">Yes. In Step 02, open “Quick size presets” and choose a preset such as Instagram Square, Portrait or Story/Reel, TikTok, or WhatsApp Status (1080 × 1920). You do not need to enter the dimensions manually. Preview the crop before exporting.</p>
+        <p data-faq-text="ur" hidden>Ji haan. Step 02 mein “Quick size presets” khol kar Instagram Square, Portrait ya Story/Reel, TikTok, ya WhatsApp Status (1080 × 1920) select karein. Dimensions khud likhne ki zaroorat nahi. Export se pehle crop ka preview zaroor dekh lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">How do I make a square photo for Pak Army or another official form?</span><span data-faq-text="ur" hidden>Pak Army ya kisi official form ke liye square photo kaise banaoon?</span></summary>
+        <p data-faq-text="en">In Step 02, choose “Forms & documents” → “Square photo (600 × 600)”. If your form also has a file-size limit, enable “Try to fit a file-size limit” and enter the required KB limit. Requirements differ by application, so check the official portal for the exact dimensions, background, dress code and maximum file size before uploading.</p>
+        <p data-faq-text="ur" hidden>Step 02 mein “Forms & documents” se “Square photo (600 × 600)” select karein. Agar form par file-size limit bhi di gayi hai to “Try to fit a file-size limit” on karke required KB enter karein. Har application ki requirements mukhtalif ho sakti hain, is liye upload se pehle official portal par dimensions, background, dress code aur maximum file size check kar lein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Can I make an image 100 KB or another specific size?</span><span data-faq-text="ur" hidden>Kya image ko 100 KB ya kisi aur khaas size tak la sakta hoon?</span></summary>
+        <p data-faq-text="en">Enable “Try to fit a file-size limit”, enter your target in KB, and export. PixelFit adjusts compression and can also reduce dimensions if you enable “Reduce dimensions if needed”. This is best-effort, not a guarantee for every image. Read the result message and check the downloaded file size before submitting it.</p>
+        <p data-faq-text="ur" hidden>“Try to fit a file-size limit” on karein, target KB mein likhein aur export karein. PixelFit compression adjust karta hai; “Reduce dimensions if needed” on ho to dimensions bhi chhoti kar sakta hai. Har image ke liye target ki guarantee nahi hoti. Result ka message aur downloaded file ka actual size check kar ke hi form par submit karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">What if part of my photo gets cropped when making a desktop wallpaper?</span><span data-faq-text="ur" hidden>Desktop wallpaper banate waqt photo ka hissa cut ho jaye to kya karoon?</span></summary>
+        <p data-faq-text="en">Choose “Fit entire image” if you want to keep the whole picture; this may leave margins. Choose “Fill & crop” to cover the whole frame edge-to-edge, but some edges may be cut off. You can choose a background color for the empty margins.</p>
+        <p data-faq-text="ur" hidden>Agar poori tasveer bachani hai to “Fit entire image” select karein; is se sides par khaali margins aa sakte hain. Screen ko poora bharna ho to “Fill & crop” select karein, lekin tasveer ke kuch kinare cut ho sakte hain. Khaali margins ke liye background color bhi select kar sakte hain.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Are my personal photos uploaded or saved on a server?</span><span data-faq-text="ur" hidden>Kya meri personal photos kisi server par upload ya save hoti hain?</span></summary>
+        <p data-faq-text="en">PixelFit processes the selected image locally in your browser and does not upload the image to PixelFit. The website itself is delivered by its hosting provider, and your device and browser security still matter. Avoid using a shared or untrusted device for sensitive photos.</p>
+        <p data-faq-text="ur" hidden>PixelFit aapki select ki hui image ko browser mein locally process karta hai aur image ko PixelFit par upload nahi karta. Website khud hosting provider se load hoti hai, aur aapke device aur browser ki security bhi aham hai. Sensitive photos ke liye shared ya ghair-motabar device istemal na karein.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Which image formats can I convert?</span><span data-faq-text="ur" hidden>Main kin image formats ko convert kar sakta hoon?</span></summary>
+        <p data-faq-text="en">You can export to JPG/JPEG, PNG or WebP. JPG and WebP are useful when a smaller file is needed; PNG can preserve transparency. When converting a transparent image to JPG, the transparent area is filled with the selected background color.</p>
+        <p data-faq-text="ur" hidden>Aap JPG/JPEG, PNG ya WebP mein export kar sakte hain. Chhoti file ke liye JPG aur WebP useful hain; PNG transparency rakh sakta hai. Transparent image ko JPG mein convert karte waqt transparent hissa aapke select kiye hue background color se fill hota hai.</p>
+      </details>
+
+      <details>
+        <summary><span data-faq-text="en">Is PixelFit free, and do I need to create an account?</span><span data-faq-text="ur" hidden>Kya PixelFit free hai, aur account banana zaroori hai?</span></summary>
+        <p data-faq-text="en">PixelFit’s current tools are free to use and do not require an account, API key or separate app installation. Open the website in a modern browser, choose your image, adjust the settings and download the result.</p>
+        <p data-faq-text="ur" hidden>PixelFit ke mojooda tools free hain aur account, API key ya alag app install karne ki zaroorat nahi. Website modern browser mein kholein, image select karein, settings adjust karein aur result download kar lein.</p>
+      </details>
     </section>
   </main>
 

@@ -672,6 +672,25 @@
     if (event.target === el.contactDialog) closeContactDialog();
   });
 
+  // FAQ language toggle (English / Roman Urdu), fully client-side.
+  const faqLanguageButtons = document.querySelectorAll('[data-faq-language]');
+  const faqTextBlocks = document.querySelectorAll('[data-faq-text]');
+  function setFaqLanguage(language) {
+    faqTextBlocks.forEach((block) => {
+      block.hidden = block.getAttribute('data-faq-text') !== language;
+    });
+    faqLanguageButtons.forEach((button) => {
+      const active = button.getAttribute('data-faq-language') === language;
+      button.setAttribute('aria-pressed', String(active));
+      button.classList.toggle('is-active', active);
+    });
+    const faqSection = document.getElementById('faq');
+    if (faqSection) faqSection.setAttribute('lang', language === 'ur' ? 'ur-Latn' : 'en');
+  }
+  faqLanguageButtons.forEach((button) => {
+    button.addEventListener('click', () => setFaqLanguage(button.getAttribute('data-faq-language')));
+  });
+
   $('year').textContent = new Date().getFullYear();
   updateQualityUi();
   updateFitHint();
