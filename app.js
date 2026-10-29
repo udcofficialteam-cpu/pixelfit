@@ -799,14 +799,29 @@
 
   async function bgEnsureEngine() {
     if (bgState.removeBackground) return bgState.removeBackground;
-    // The pinned browser package is served as static ESM. Model weights are fetched on demand;
-    // there is no PixelFit backend and the selected image is passed only to the local model.
-    const module = await import('https://esm.sh/@bg0/browser@0.1.2?bundle');
-    if (typeof module.removeBackground !== 'function') {
-      throw new Error('The background-removal engine did not load correctly. Refresh and try again.');
+
+    // Pin to the published package version. The latest repository source may be newer
+    // than the package currently available on public CDNs, so do not import an unpublished tag.
+    // Try a second public ESM CDN if the first one is blocked or unavailable.
+    const cdnUrls = [
+      'https://esm.sh/@bg0/browser@0.1.1?bundle',
+      'https://cdn.jsdelivr.net/npm/@bg0/browser@0.1.1/+esm'
+    ];
+    let lastError = null;
+    for (const url of cdnUrls) {
+      try {
+        const module = await import(url);
+        if (typeof module.removeBackground === 'function') {
+          bgState.removeBackground = module.removeBackground;
+          return bgState.removeBackground;
+        }
+        lastError = new Error('The loaded module did not expose removeBackground.');
+      } catch (error) {
+        lastError = error;
+        console.warn('[PixelFit] Background-removal CDN failed:', url, error);
+      }
     }
-    bgState.removeBackground = module.removeBackground;
-    return bgState.removeBackground;
+    throw new Error('Could not load the background-removal engine from either public CDN. Check your internet connection and try again. Your photo has not been uploaded.');
   }
 
   async function bgRemove() {
@@ -843,9 +858,7 @@
       bg.downloadButton.focus({ preventScroll: true });
     } catch (error) {
       const rawMessage = error && typeof error.message === 'string' ? error.message : '';
-      const message = /failed to fetch|network|load|import|module|fetch/i.test(rawMessage)
-        ? 'Could not load the background-removal engine or model. Check your internet connection, refresh the page, and try again. Some browsers may not support this feature in the static version.'
-        : (rawMessage || 'Background removal failed. Try a smaller JPG, PNG or WebP image.');
+      const message = rawMessage || 'Background removal failed. Try a smaller JPG, PNG or WebP image.';
       bgSetStatus(message, 'error');
       bg.progressLabel.textContent = 'Could not complete';
     } finally {
