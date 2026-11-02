@@ -1,9 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#eeedff"/>
+  <defs><linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#16a5ff"/><stop offset="1" stop-color="#0755e8"/></linearGradient></defs>
+  <rect width="64" height="64" rx="17" fill="url(#blue)"/>
   <g transform="translate(13 13)">
-    <rect width="16" height="16" rx="4" fill="#5c55e7"/>
-    <rect x="22" width="16" height="16" rx="4" fill="#5c55e7" opacity=".66"/>
-    <rect y="22" width="16" height="16" rx="4" fill="#5c55e7" opacity=".8"/>
-    <rect x="22" y="22" width="16" height="16" rx="4" fill="#24c99a"/>
+    <rect width="16" height="16" rx="4" fill="#fff"/>
+    <rect x="22" width="16" height="16" rx="4" fill="#fff" opacity=".78"/>
+    <rect y="22" width="16" height="16" rx="4" fill="#fff" opacity=".9"/>
+    <rect x="22" y="22" width="16" height="16" rx="4" fill="#6fe4ff"/>
   </g>
 </svg>

@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f8fc">
+  <meta name="theme-color" content="#f1f7ff">
   <meta name="description" content="Resize, crop, compress, convert images, and remove photo backgrounds online for free. Make social media graphics, form photos and desktop wallpapers with PixelFit.">
   <title>PixelFit — Free Image Resizer, Converter &amp; Background Remover</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pixel-fit-redesign.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -29,12 +30,53 @@
 
   <main id="main">
     <section class="hero" id="top">
-      <div class="eyebrow"><span class="eyebrow-dot"></span> FREE · SIMPLE · PRIVATE</div>
-      <h1>Every image.<br><span>The right size.</span></h1>
-      <p class="hero-copy">Resize for social media, remove photo backgrounds, make a desktop wallpaper, compress files or convert formats — all in one place.</p>
-      <div class="trust-row">
-        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> Images stay on your device</span>
-        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg> No account or API key</span>
+      <div class="hero-inner">
+        <div class="hero-message">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> FREE · SIMPLE · PRIVATE</div>
+          <h1>Every image.<br><span>The right size.</span></h1>
+          <p class="hero-copy">Resize for social media, remove photo backgrounds, make a desktop wallpaper, compress files or convert formats — all in one place.</p>
+          <div class="hero-actions">
+            <a class="hero-primary-link" href="#workspace">Start editing <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            <a class="hero-secondary-link" href="#tools">Explore all tools <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="trust-row">
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> Images stay on your device</span>
+            <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg> No account or API key</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-art-halo"></div>
+          <div class="hero-art-frame">
+            <div class="hero-art-topline"><span class="hero-art-brand"><span class="hero-art-mark">P</span> PixelFit Studio</span><span class="hero-art-private"><i></i> On-device editing</span></div>
+            <div class="hero-art-scene">
+              <svg viewBox="0 0 620 410" role="presentation" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="pfSky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#159cf8"/><stop offset="1" stop-color="#c4eaff"/></linearGradient>
+                  <linearGradient id="pfLake" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#47c8e8"/><stop offset="1" stop-color="#0757a9"/></linearGradient>
+                  <linearGradient id="pfPeak" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7fcff"/><stop offset="1" stop-color="#6a8eae"/></linearGradient>
+                </defs>
+                <rect width="620" height="410" fill="url(#pfSky)"/>
+                <circle cx="485" cy="73" r="34" fill="#fff8d5" opacity=".9"/>
+                <path d="M0 185 75 116l56 57 92-105 76 91 91-75 82 91 81-68 67 69v77H0Z" fill="#456f9b"/>
+                <path d="m131 173 92-105 76 91-38-17-31 20-27-24-25 29-20-11Z" fill="url(#pfPeak)"/>
+                <path d="m290 161 91-77 82 91-42-20-29 22-23-20-21 19-23-21Z" fill="#d9efff"/>
+                <path d="M0 190q95-36 190 0t190 0 240 2v60H0Z" fill="#194f68"/>
+                <path d="M0 224q80-35 156 0t156 0 156 0 152 0v186H0Z" fill="url(#pfLake)"/>
+                <path d="M0 260q78-13 156 0t156 0 156 0 152 0M0 302q90-15 180 0t180 0 180 0 80 0M0 348q90-11 180 0t180 0 180 0 80 0" fill="none" stroke="#d8f8ff" stroke-width="3" opacity=".5"/>
+                <g fill="#0b4f43"><path d="M0 191 23 130l22 61h-12l15 27H-3l15-27Z"/><path d="M41 205 66 128l25 77H77l14 28H53l14-28Z"/><path d="M536 200 562 119l26 81h-15l16 29h-55l16-29Z"/><path d="M578 210 599 145l21 65h-12l12 23h-43l13-23Z"/></g>
+                <g fill="#17745b"><path d="M0 238 25 174l25 64H36l14 25H0l14-25Z"/><path d="M76 240 98 177l22 63h-13l13 23H76l13-23Z"/><path d="M490 240 512 172l22 68h-13l13 25h-47l13-25Z"/></g>
+                <path d="M0 382q100-37 195 4t190-2 235 0v26H0Z" fill="#123d50" opacity=".42"/>
+              </svg>
+            </div>
+            <div class="hero-art-foot">
+              <span class="hero-art-file-icon"><svg viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5M8 15l3-3 2 2 2-2 2 3"/></svg></span>
+              <span class="hero-art-file-copy"><strong>Make every pixel fit</strong><small>Resize · Compress · Convert</small></span>
+              <span class="hero-art-format">JPG <b>·</b> PNG <b>·</b> WebP</span>
+            </div>
+          </div>
+          <div class="hero-float hero-float-size"><span class="hero-float-icon">↗</span><span><strong>Custom sizes</strong><small>Ready for your platform</small></span></div>
+          <div class="hero-float hero-float-privacy"><span class="hero-float-shield">✓</span><span><strong>Private by design</strong><small>Your image stays local</small></span></div>
+        </div>
       </div>
     </section>
 
@@ -162,6 +204,14 @@
           <p class="download-note">Your download is saved directly to your device.</p>
         </div>
       </div>
+    </section>
+
+
+    <section class="benefit-strip" aria-label="PixelFit benefits">
+      <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-13h-7l0-7Z"/></svg></span><span><strong>Fast & easy</strong><small>Simple tools, clear controls</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>100% private</strong><small>Images are processed locally</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="15" height="13" rx="2"/><path d="M6 21h7m-3.5-5v5M19 9h3v12h-8V9h5Z"/></svg></span><span><strong>Fully responsive</strong><small>Desktop, tablet and mobile</small></span></div>
+      <div class="benefit-item"><span class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span><strong>One useful toolkit</strong><small>Everyday image tasks in one place</small></span></div>
     </section>
 
     <section class="tools-section" id="tools">

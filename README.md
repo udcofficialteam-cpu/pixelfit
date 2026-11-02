@@ -77,3 +77,34 @@ Review the Privacy Policy before enabling ads; update it to match the actual ad/
 ## AdSense preparation note
 
 The Privacy Policy includes a disclosure for potential Google AdSense advertising cookies and links to Google Ads Settings and aboutads.info choices. Before serving ads, configure AdSense settings and any consent message or certified CMP required for your audience and applicable policies. This policy is a starting point; keep it accurate for the services actually enabled.
+
+
+## Visual redesign package
+
+The current release includes a PixelFit blue-and-white SaaS visual refresh based on the supplied design references. The redesign updates the homepage hero, adds a custom vector illustration and benefit strip, frames the existing editor as the main workspace, and applies a consistent style to the background remover, tool cards, FAQ, contact dialog, and information pages.
+
+### Source files in this package
+
+- `index.html` — deployed homepage, with the original tool controls and IDs retained.
+- `PixelFit-index-updated.html` — synchronized compatibility copy of the homepage; `index.html` remains the Vercel entry page.
+- `styles.css` — original component and responsive styles, retained as the base layer.
+- `pixel-fit-redesign.css` — new visual theme and responsive overrides.
+- `app.js` — original image-processing, export, background-removal, FAQ, and contact behavior; left unchanged in this redesign.
+- `about.html`, `privacy.html`, `terms.html` — information pages updated to load the redesign theme.
+- `favicon.svg` — updated blue PixelFit tile mark.
+- `REDESIGN-CHANGELOG.md` — modified/new/preserved file inventory and validation notes.
+- `robots.txt`, `sitemap.xml`, and Google site-verification file — retained.
+
+### Deploy the redesign to the existing Vercel project
+
+1. Download and extract the ZIP.
+2. Upload the contents of the `pixelfit-main` folder to the root of the existing GitHub repository, replacing files with matching names and adding `pixel-fit-redesign.css`.
+3. Commit the changes to the connected branch.
+4. Vercel should deploy the static site automatically. Keep the project configured with the repository root as the output directory (`.`), no build command, and the `Other` framework preset.
+5. After deployment, hard-refresh the website (`Ctrl + F5`) so the browser loads the new stylesheet and favicon.
+
+No package manager, build step, server, database, image API, or new dependency is introduced by the redesign.
+
+### Functionality preservation notes
+
+The existing `app.js` is unchanged. The upload/drop interaction, dimension locking, social and wallpaper presets, crop/fit modes, JPG/PNG/WebP export, quality setting, optional file-size target, downscaling option, background color, result preview/download, AI background-removal integration, bilingual FAQ toggle, and contact dialog remain wired to their original element IDs. The new hero links are ordinary in-page anchors to the real editor and tool catalogue; the added hero artwork is decorative and does not pretend to be an interactive editor preview.
